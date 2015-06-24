@@ -46,6 +46,7 @@ public class WeatherView implements Observer {
     private void setupUIComponents() {
         weatherFrame = new JFrame("Temperatur Konverter");
 
+
         // ------------ FAHRENHEIT -------------
         JPanel fahrenheitPanel = new JPanel();
         fahrenheitPanel.setLayout(new BoxLayout(fahrenheitPanel, BoxLayout.Y_AXIS));
@@ -67,7 +68,11 @@ public class WeatherView implements Observer {
         fahrenheitPanel.add(fahrenheitUpperPanel);
         fahrenheitPanel.add(fahrenheitSlider);
 
+
         // ------------ CELSIUS -------------
+        JPanel celsiusPanel = new JPanel();
+        celsiusPanel.setLayout(new BoxLayout(celsiusPanel, BoxLayout.Y_AXIS));
+
         JPanel celsiusUpperPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JLabel celsiusLabel = new JLabel("Celsius");
@@ -79,8 +84,13 @@ public class WeatherView implements Observer {
         celsiusUpperPanel.add(celsiusField);
         celsiusUpperPanel.add(convert2FahrenheitButton);
 
+        celsiusSlider = new JSlider(SwingConstants.HORIZONTAL, celsiusSliderMin, celsiusSliderMax, celsiusSliderMin);
 
-        weatherFrame.add(celsiusUpperPanel, BorderLayout.NORTH);
+        celsiusPanel.add(celsiusUpperPanel);
+        celsiusPanel.add(celsiusSlider);
+
+
+        weatherFrame.add(celsiusPanel, BorderLayout.NORTH);
         weatherFrame.add(fahrenheitPanel, BorderLayout.SOUTH);
         weatherFrame.pack();
 
