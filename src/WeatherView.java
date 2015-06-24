@@ -96,6 +96,10 @@ public class WeatherView implements Observer {
 
     }
 
+    public JFrame getWeatherFrame() {
+        return weatherFrame;
+    }
+
     public JButton getConvert2CelsiusButton() {
         return convert2CelsiusButton;
     }
