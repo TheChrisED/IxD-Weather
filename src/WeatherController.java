@@ -28,16 +28,23 @@ public class WeatherController {
         ActionListener convert2CelsiusListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
-                double fahrenheit = Double.parseDouble(view.getFahrenheitField().getText());
-                updateFahrenheit(fahrenheit);
+                try {
+                    double fahrenheit = Double.parseDouble(view.getFahrenheitField().getText());
+                    updateFahrenheit(fahrenheit);
+                } catch (NumberFormatException exc) {
+                    showNumberErrorDialog();
+                }
             }
         };
         ActionListener convert2FahrenheitListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                double celsius = Double.parseDouble(view.getCelsiusField().getText());
-                updateCelsius(celsius);
+                try {
+                    double celsius = Double.parseDouble(view.getCelsiusField().getText());
+                    updateCelsius(celsius);
+                } catch (NumberFormatException exc) {
+                    showNumberErrorDialog();
+                }
             }
         };
 
@@ -85,6 +92,10 @@ public class WeatherController {
                 || 	(keyChar == KeyEvent.VK_PASTE)) {
             key.consume();
         }
+    }
+
+    private void showNumberErrorDialog() {
+        JOptionPane.showMessageDialog(view.getWeatherFrame(), "Bitte geben Sie eine korrekte Zahl ein!");
     }
 
     /**
