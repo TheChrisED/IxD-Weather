@@ -7,8 +7,8 @@ import java.text.ParseException;
  */
 public class WeatherController {
 
-    public static final int FAHRENHEIT_SLIDER_MIN = 0;
-    public static final int FAHRENHEIT_SLIDER_MAX = 120;
+    private static final int FAHRENHEIT_SLIDER_MIN = -40;
+    private static final int FAHRENHEIT_SLIDER_MAX = 120;
 
     private WeatherView view;
     private WeatherModel model;
@@ -28,6 +28,7 @@ public class WeatherController {
         ActionListener convert2CelsiusListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	
                 double fahrenheit = Double.parseDouble(view.getFahrenheitField().getText());
                 updateFahrenheit(fahrenheit);
             }
@@ -52,23 +53,25 @@ public class WeatherController {
 
         JTextField celsiusField = view.getCelsiusField();
         celsiusField.addActionListener(convert2FahrenheitListener);
-        celsiusField.addKeyListener(new KeyAdapter() {
+        
+        KeyAdapter correctCharAdapter = new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 correctCharInField(e);
             }
-        });
+            @Override
+            public void keyPressed (KeyEvent e) {
+            	correctCharInField(e);
+            }
+        };
+        celsiusField.addKeyListener(correctCharAdapter);
 
         JTextField fahrenheitField = view.getFahrenheitField();
         fahrenheitField.addActionListener(convert2CelsiusListener);
-        fahrenheitField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                correctCharInField(e);
-            }
-        });
+        fahrenheitField.addKeyListener(correctCharAdapter);
     }
-
+    //TODO: Textfield mit Tastendrucküberprüfung durch bessere Variante ersetzen
+    //(z.B. http://stackoverflow.com/questions/1313390/is-there-any-way-to-accept-only-numeric-values-in-a-jtextfield)
     /**
      * This method takes care of making sure a specified KeyEvent is a number or can be part of a number (. -)
      * If the KeyEvent does not match the criteria, it gets consumed, meaning it won't reach other objects like JTextFields
@@ -78,7 +81,8 @@ public class WeatherController {
         char keyChar = key.getKeyChar();
         if (!       (Character.isDigit(keyChar) || keyChar == '.' || keyChar == '-'
                 ||  (keyChar == KeyEvent.VK_BACK_SPACE) || (keyChar == KeyEvent.VK_DELETE)
-                ||  (keyChar == KeyEvent.VK_ENTER)      || (keyChar == KeyEvent.VK_TAB))) {
+                ||  (keyChar == KeyEvent.VK_ENTER)      || (keyChar == KeyEvent.VK_TAB))
+                || 	(keyChar == KeyEvent.VK_PASTE)) {
             key.consume();
         }
     }

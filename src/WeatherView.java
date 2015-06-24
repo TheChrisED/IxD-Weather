@@ -15,7 +15,6 @@ public class WeatherView implements Observer {
     private int celsiusSliderMax;
     private int celsiusSliderMin;
 
-
     private WeatherModel model;
 
     private JFrame weatherFrame;
@@ -45,6 +44,7 @@ public class WeatherView implements Observer {
 
     private void setupUIComponents() {
         weatherFrame = new JFrame("Temperatur Konverter");
+        weatherFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         // ------------ FAHRENHEIT -------------
