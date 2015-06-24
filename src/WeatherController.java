@@ -21,52 +21,48 @@ public class WeatherController {
     }
 
     private void setupListeners() {
-        // ------------ BUTTONS -------------
-        JButton convert2Celsius = view.getConvert2CelsiusButton();
-        convert2Celsius.addActionListener(new ActionListener() {
+        ActionListener convert2CelsiusListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 double fahrenheit = Double.parseDouble(view.getFahrenheitField().getText());
                 updateFahrenheit(fahrenheit);
             }
-        });
-
-        JButton convert2Fahrenheit = view.getConvert2FahrenheitButton();
-        convert2Fahrenheit.addActionListener(new ActionListener() {
+        };
+        ActionListener convert2FahrenheitListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 double celsius = Double.parseDouble(view.getCelsiusField().getText());
                 updateCelsius(celsius);
             }
-        });
+        };
+
+
+        // ------------ BUTTONS -------------
+        JButton convert2Celsius = view.getConvert2CelsiusButton();
+        convert2Celsius.addActionListener(convert2CelsiusListener);
+
+        JButton convert2Fahrenheit = view.getConvert2FahrenheitButton();
+        convert2Fahrenheit.addActionListener(convert2FahrenheitListener);
 
         // ------------ TEXT FIELDS -------------
 
         JTextField celsiusField = view.getCelsiusField();
+        celsiusField.addActionListener(convert2FahrenheitListener);
         celsiusField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 correctCharInField(e, celsiusField);
             }
         });
-//
+
         JTextField fahrenheitField = view.getFahrenheitField();
+        fahrenheitField.addActionListener(convert2CelsiusListener);
         fahrenheitField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 correctCharInField(e, fahrenheitField);
             }
         });
-        /*fahrenheitField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                try {
-                    ((JFormattedTextField) fahrenheitField).commitEdit();
-                } catch (ParseException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });*/
     }
 
     private void correctCharInField(KeyEvent key, JTextField textField) {
