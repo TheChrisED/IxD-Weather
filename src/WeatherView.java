@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Observable;
 import java.util.Observer;
@@ -98,16 +99,31 @@ public class WeatherView implements Observer {
     }
 
 
+    private String formatTempForDisplay(double temp) {
+        int decimalPlaces = 2;
+        BigDecimal bd = new BigDecimal(temp);
+
+        bd = bd.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
+        temp = bd.doubleValue();
+        String tempText = String.valueOf(temp);
+        if (temp % 1 == 0) {
+            tempText = tempText.substring(0, tempText.lastIndexOf('.'));
+        }
+        return tempText;
+    }
+
     private void updateUI() {
-        updateCelsius(model.getDegCelsius());
-        updateFahrenheit(model.getDegFahrenheit());
+
+        double celsius = model.getDegCelsius();
+        updateCelsius(formatTempForDisplay(celsius));
+        updateFahrenheit(formatTempForDisplay(model.getDegFahrenheit()));
     }
 
-    private void updateCelsius(double celsius) {
-        celsiusField.setText(String.valueOf(celsius));
+    private void updateCelsius(String celsius) {
+        celsiusField.setText(celsius);
     }
 
-    private void updateFahrenheit(double fahrenheit) {
-        fahrenheitField.setText(String.valueOf(fahrenheit));
+    private void updateFahrenheit(String fahrenheit) {
+        fahrenheitField.setText(fahrenheit);
     }
 }

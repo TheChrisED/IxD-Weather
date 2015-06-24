@@ -51,7 +51,7 @@ public class WeatherController {
         celsiusField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                correctCharInField(e, celsiusField);
+                correctCharInField(e);
             }
         });
 
@@ -60,23 +60,21 @@ public class WeatherController {
         fahrenheitField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                correctCharInField(e, fahrenheitField);
+                correctCharInField(e);
             }
         });
     }
 
-    private void correctCharInField(KeyEvent key, JTextField textField) {
-        //if (!key.)
+    /**
+     * This method takes care of making sure a specified KeyEvent is a number or can be part of a number (. -)
+     * If the KeyEvent does not match the criteria, it gets consumed, meaning it won't reach other objects like JTextFields
+     * @param key the KeyEvent to check
+     */
+    private void correctCharInField(KeyEvent key) {
         char keyChar = key.getKeyChar();
-        if (!       (Character.isDigit(keyChar) || keyChar == '.'
+        if (!       (Character.isDigit(keyChar) || keyChar == '.' || keyChar == '-'
                 ||  (keyChar == KeyEvent.VK_BACK_SPACE) || (keyChar == KeyEvent.VK_DELETE)
                 ||  (keyChar == KeyEvent.VK_ENTER)      || (keyChar == KeyEvent.VK_TAB))) {
-            /*String text = textField.getText();
-            text = text.substring(0, text.length() - 2);
-            if (text.isEmpty()) {
-                text = "0";
-            }
-            textField.setText(text);*/
             key.consume();
         }
     }
