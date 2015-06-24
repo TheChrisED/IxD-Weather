@@ -102,10 +102,10 @@ public class WeatherView implements Observer {
     }
 
     private void updateCelsius(double celsius) {
-
+        celsiusField.setText(String.valueOf(celsius));
     }
 
     private void updateFahrenheit(double fahrenheit) {
-
+        fahrenheitField.setText(String.valueOf(fahrenheit));
     }
 }

@@ -21,11 +21,13 @@ public class WeatherController {
     }
 
     private void setupListeners() {
+        // ------------ BUTTONS -------------
         JButton convert2Celsius = view.getConvert2CelsiusButton();
         convert2Celsius.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 double fahrenheit = Double.parseDouble(view.getFahrenheitField().getText());
+                updateFahrenheit(fahrenheit);
             }
         });
 
@@ -33,23 +35,32 @@ public class WeatherController {
         convert2Fahrenheit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                double celsius = Double.parseDouble(view.getCelsiusField().getText());
+                updateCelsius(celsius);
             }
         });
+
+        // ------------ TEXT FIELDS -------------
     }
 
     /**
      * Checks wether textField's text is a valid number and if not, deletes the last character
      * @param textField the JTextField to be corrected
+     * @return Returns the parsed number if the contained text is a number. Otherwise returns null
      */
-    private void correctNonNumbers(JTextField textField) {
+    private Double correctNonNumber(JTextField textField) {
         String text = textField.getText();
         try {
             double d = Double.parseDouble(text);
+            return d;
         }
         catch(NumberFormatException nfe) {
             String correctedText = text.substring(0, text.length() - 2);
+            if (correctedText.length() == 0) {
+                correctedText = "0";
+            }
             textField.setText(correctedText);
+            return null;
         }
     }
 
@@ -61,10 +72,17 @@ public class WeatherController {
         return (fahrenheit - 32) * 5 / 9;
     }
 
-    /**
-     * This method should be called after changes were made to the model
-     */
-    private void update() {
+    private void updateCelsius(double celsius) {
+        updateModel(celsius, convert2Fahrenheit(celsius));
+    }
+
+    private void updateFahrenheit(double fahrenheit) {
+        updateModel(convert2Celsius(fahrenheit), fahrenheit);
+    }
+
+    private void updateModel(double celsius, double fahrenheit) {
+        model.setDegCelsius(celsius);
+        model.setDegFahrenheit(fahrenheit);
         model.setUpdated();
     }
 }
