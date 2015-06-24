@@ -5,36 +5,42 @@ import java.util.Observable;
  */
 public class WeatherModel extends Observable {
 
-    private double degCelsius;
-    private double degFahrenheit;
+	private int degCelsius;
+	private int degFahrenheit;
 
+	public WeatherModel(int degCelsius, int degFahrenheit) {
+		this.degCelsius = degCelsius;
+		this.degFahrenheit = degFahrenheit;
+	}
 
-    public WeatherModel(double degCelsius, double degFahrenheit) {
-        this.degCelsius = degCelsius;
-        this.degFahrenheit = degFahrenheit;
-    }
+	public int getDegFahrenheit() {
+		return degFahrenheit;
+	}
 
-    public double getDegFahrenheit() {
-        return degFahrenheit;
-    }
+	public void setDegFahrenheit(int degFahrenheit) {
+		if (this.degFahrenheit != degFahrenheit) {
+			this.degFahrenheit = degFahrenheit;
+			setUpdated();
+		}
+	}
 
-    public void setDegFahrenheit(double degFahrenheit) {
-        this.degFahrenheit = degFahrenheit;
-    }
+	public int getDegCelsius() {
+		return degCelsius;
+	}
 
-    public double getDegCelsius() {
-        return degCelsius;
-    }
+	public void setDegCelsius(int degCelsius) {
+		if (this.degCelsius != degCelsius) {
+			this.degCelsius = degCelsius;
+			setUpdated();
+		}
+	}
 
-    public void setDegCelsius(double degCelsius) {
-        this.degCelsius = degCelsius;
-    }
-
-    /**
-     * This Method should be called after changes were made to the model and its observers should be notified
-     */
-    public void setUpdated() {
-        setChanged();
-        notifyObservers();
-    }
+	/**
+	 * This Method should be called after changes were made to the model and its
+	 * observers should be notified
+	 */
+	private void setUpdated() {
+		setChanged();
+		notifyObservers();
+	}
 }

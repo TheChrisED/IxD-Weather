@@ -1,6 +1,11 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.event.*;
 import java.text.ParseException;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Chris on 23.06.15.
@@ -8,17 +13,17 @@ import java.text.ParseException;
 public class WeatherController {
 
     private static final int FAHRENHEIT_SLIDER_MIN = -40;
-    private static final int FAHRENHEIT_SLIDER_MAX = 120;
+    private static final int FAHRENHEIT_SLIDER_MAX = 200;
 
     private WeatherView view;
     private WeatherModel model;
 
-    public static final double INITIAL_DEG_CELSIUS = 0;
+    public static final int INITIAL_DEG_CELSIUS = -40;
 
     public WeatherController() {
-        double initialDegFahrenheit = convert2Fahrenheit(INITIAL_DEG_CELSIUS);
+        int initialDegFahrenheit = convert2Fahrenheit(INITIAL_DEG_CELSIUS);
         model = new WeatherModel(INITIAL_DEG_CELSIUS, initialDegFahrenheit);
-        view = new WeatherView(model, FAHRENHEIT_SLIDER_MAX, FAHRENHEIT_SLIDER_MIN,
+        view = new WeatherView(model, this, FAHRENHEIT_SLIDER_MAX, FAHRENHEIT_SLIDER_MIN,
                 (int) convert2Celsius(FAHRENHEIT_SLIDER_MAX), (int) convert2Celsius(FAHRENHEIT_SLIDER_MIN));
 
         setupListeners();
@@ -29,7 +34,7 @@ public class WeatherController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    double fahrenheit = Double.parseDouble(view.getFahrenheitField().getText());
+                    int fahrenheit = Integer.parseInt(view.getFahrenheitField().getText());
                     updateFahrenheit(fahrenheit);
                 } catch (NumberFormatException exc) {
                     showNumberErrorDialog();
@@ -40,7 +45,7 @@ public class WeatherController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    double celsius = Double.parseDouble(view.getCelsiusField().getText());
+                    int celsius = Integer.parseInt(view.getCelsiusField().getText());
                     updateCelsius(celsius);
                 } catch (NumberFormatException exc) {
                     showNumberErrorDialog();
@@ -55,6 +60,19 @@ public class WeatherController {
 
         JButton convert2Fahrenheit = view.getConvert2FahrenheitButton();
         convert2Fahrenheit.addActionListener(convert2FahrenheitListener);
+        
+        // ------------ SLIDERS -------------
+        JSlider fahrenheitSlider = view.getFahrenheitSlider();
+        fahrenheitSlider.addChangeListener((ChangeEvent e)->{
+        	int fahrenheit = fahrenheitSlider.getValue();
+        	updateFahrenheit(fahrenheit);
+        });
+        
+        JSlider celsiusSlider = view.getCelsiusSlider();
+        celsiusSlider.addChangeListener((ChangeEvent e) ->{
+        	int celsius = celsiusSlider.getValue();
+        	updateCelsius(celsius);
+        });
 
         // ------------ TEXT FIELDS -------------
 
@@ -86,7 +104,7 @@ public class WeatherController {
      */
     private void correctCharInField(KeyEvent key) {
         char keyChar = key.getKeyChar();
-        if (!       (Character.isDigit(keyChar) || keyChar == '.' || keyChar == '-'
+        if (!       (Character.isDigit(keyChar) || keyChar == '-'
                 ||  (keyChar == KeyEvent.VK_BACK_SPACE) || (keyChar == KeyEvent.VK_DELETE)
                 ||  (keyChar == KeyEvent.VK_ENTER)      || (keyChar == KeyEvent.VK_TAB))
                 || 	(keyChar == KeyEvent.VK_PASTE)) {
@@ -99,7 +117,7 @@ public class WeatherController {
     }
 
     /**
-     * Checks wether textField's text is a valid number and if not, deletes the last character
+     * Checks whether textField's text is a valid number and if not, deletes the last character
      * @param textField the JTextField to be corrected
      * @return Returns the parsed number if the contained text is a number. Otherwise returns null
      */
@@ -119,25 +137,24 @@ public class WeatherController {
         }
     }
 
-    private double convert2Fahrenheit(double celsius) {
-        return celsius * 1.8 + 32;
+    private int convert2Fahrenheit(int celsius) {
+        return (int) Math.round(celsius * 1.8 + 32);
     }
 
-    private double convert2Celsius(double fahrenheit) {
-        return (fahrenheit - 32) * 5 / 9;
+    private int convert2Celsius(int fahrenheit) {
+        return (int) Math.round((fahrenheit - 32) * 5.0 / 9);
     }
 
-    private void updateCelsius(double celsius) {
+    private void updateCelsius(int celsius) {
         updateModel(celsius, convert2Fahrenheit(celsius));
     }
 
-    private void updateFahrenheit(double fahrenheit) {
+    private void updateFahrenheit(int fahrenheit) {
         updateModel(convert2Celsius(fahrenheit), fahrenheit);
     }
 
-    private void updateModel(double celsius, double fahrenheit) {
+    private void updateModel(int celsius, int fahrenheit) {
         model.setDegCelsius(celsius);
         model.setDegFahrenheit(fahrenheit);
-        model.setUpdated();
     }
 }
