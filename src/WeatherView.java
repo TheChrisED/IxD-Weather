@@ -45,6 +45,7 @@ public class WeatherView implements Observer {
     private void setupUIComponents() {
         weatherFrame = new JFrame("Temperatur Konverter");
         weatherFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        weatherFrame.setResizable(false);
 
 
         // ------------ FAHRENHEIT -------------
