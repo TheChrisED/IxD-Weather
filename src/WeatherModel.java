@@ -1,7 +1,9 @@
+import java.util.Observable;
+
 /**
  * Created by Chris on 23.06.15.
  */
-public class WeatherModel {
+public class WeatherModel extends Observable {
 
     private double degCelsius;
     private double degFahrenheit;
@@ -26,5 +28,13 @@ public class WeatherModel {
 
     public void setDegCelsius(int degCelsius) {
         this.degCelsius = degCelsius;
+    }
+
+    /**
+     * This Method should be called after changes were made to the model and its observers should be notified
+     */
+    public void setUpdated() {
+        setChanged();
+        notifyObservers();
     }
 }

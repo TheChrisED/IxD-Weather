@@ -20,4 +20,11 @@ public class WeatherController {
     private double convert2Celsius(double fahrenheit) {
         return (fahrenheit - 32) * 5 / 9;
     }
+
+    /**
+     * This method should be called after changes were made to the model
+     */
+    private void update() {
+        model.setUpdated();
+    }
 }
