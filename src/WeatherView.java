@@ -62,6 +62,30 @@ public class WeatherView implements Observer {
 
     }
 
+    public JButton getConvert2CelsiusButton() {
+        return convert2CelsiusButton;
+    }
+
+    public JButton getConvert2FahrenheitButton() {
+        return convert2FahrenheitButton;
+    }
+
+    public JTextField getCelsiusField() {
+        return celsiusField;
+    }
+
+    public JTextField getFahrenheitField() {
+        return fahrenheitField;
+    }
+
+    public JSlider getCelsiusSlider() {
+        return celsiusSlider;
+    }
+
+    public JSlider getFahrenheitSlider() {
+        return fahrenheitSlider;
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         if (o == model) {
