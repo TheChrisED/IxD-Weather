@@ -14,19 +14,19 @@ public class WeatherModel extends Observable {
         this.degFahrenheit = degFahrenheit;
     }
 
-    public int getDegFahrenheit() {
+    public double getDegFahrenheit() {
         return degFahrenheit;
     }
 
-    public void setDegFahrenheit(int degFahrenheit) {
+    public void setDegFahrenheit(double degFahrenheit) {
         this.degFahrenheit = degFahrenheit;
     }
 
-    public int getDegCelsius() {
+    public double getDegCelsius() {
         return degCelsius;
     }
 
-    public void setDegCelsius(int degCelsius) {
+    public void setDegCelsius(double degCelsius) {
         this.degCelsius = degCelsius;
     }
 
