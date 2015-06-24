@@ -11,6 +11,7 @@ public class WeatherController {
     public WeatherController() {
         double initialDegFahrenheit = convert2Fahrenheit(INITIAL_DEG_CELSIUS);
         model = new WeatherModel(INITIAL_DEG_CELSIUS, initialDegFahrenheit);
+        view = new WeatherView(model);
     }
 
     private double convert2Fahrenheit(double celsius) {
