@@ -3,11 +3,11 @@
  */
 public class WeatherModel {
 
-    private int degCelsius;
-    private int degFahrenheit;
+    private double degCelsius;
+    private double degFahrenheit;
 
 
-    public WeatherModel(int degCelsius, int degFahrenheit) {
+    public WeatherModel(double degCelsius, double degFahrenheit) {
         this.degCelsius = degCelsius;
         this.degFahrenheit = degFahrenheit;
     }
