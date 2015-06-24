@@ -1,6 +1,6 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.text.ParseException;
 
 /**
  * Created by Chris on 23.06.15.
@@ -41,6 +41,48 @@ public class WeatherController {
         });
 
         // ------------ TEXT FIELDS -------------
+
+        JTextField celsiusField = view.getCelsiusField();
+        celsiusField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                correctCharInField(e, celsiusField);
+            }
+        });
+//
+        JTextField fahrenheitField = view.getFahrenheitField();
+        fahrenheitField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                correctCharInField(e, fahrenheitField);
+            }
+        });
+        /*fahrenheitField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                try {
+                    ((JFormattedTextField) fahrenheitField).commitEdit();
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });*/
+    }
+
+    private void correctCharInField(KeyEvent key, JTextField textField) {
+        //if (!key.)
+        char keyChar = key.getKeyChar();
+        if (!       (Character.isDigit(keyChar) || keyChar == '.'
+                ||  (keyChar == KeyEvent.VK_BACK_SPACE) || (keyChar == KeyEvent.VK_DELETE)
+                ||  (keyChar == KeyEvent.VK_ENTER)      || (keyChar == KeyEvent.VK_TAB))) {
+            /*String text = textField.getText();
+            text = text.substring(0, text.length() - 2);
+            if (text.isEmpty()) {
+                text = "0";
+            }
+            textField.setText(text);*/
+            key.consume();
+        }
     }
 
     /**

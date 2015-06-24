@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.text.NumberFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,6 +36,7 @@ public class WeatherView implements Observer {
         JPanel fahrenheitPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JLabel fahrenheitLabel = new JLabel("Fahrenheit");
+        NumberFormat fahrenheitFormat = NumberFormat.getNumberInstance();
         fahrenheitField = new JTextField();
         fahrenheitField.setColumns(10);
         convert2CelsiusButton = new JButton("Konvertiere nach Celsius");
