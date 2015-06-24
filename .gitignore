@@ -13,3 +13,9 @@
 hs_err_pid*
 
 IxD-Weather.iml
+
+# Eclipse Stuff #
+
+.project
+.classpath
+.settings/*
