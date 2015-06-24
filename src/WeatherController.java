@@ -7,6 +7,9 @@ import java.text.ParseException;
  */
 public class WeatherController {
 
+    public static final int FAHRENHEIT_SLIDER_MIN = 0;
+    public static final int FAHRENHEIT_SLIDER_MAX = 120;
+
     private WeatherView view;
     private WeatherModel model;
 
@@ -15,7 +18,8 @@ public class WeatherController {
     public WeatherController() {
         double initialDegFahrenheit = convert2Fahrenheit(INITIAL_DEG_CELSIUS);
         model = new WeatherModel(INITIAL_DEG_CELSIUS, initialDegFahrenheit);
-        view = new WeatherView(model);
+        view = new WeatherView(model, FAHRENHEIT_SLIDER_MAX, FAHRENHEIT_SLIDER_MIN,
+                (int) convert2Celsius(FAHRENHEIT_SLIDER_MAX), (int) convert2Celsius(FAHRENHEIT_SLIDER_MIN));
 
         setupListeners();
     }

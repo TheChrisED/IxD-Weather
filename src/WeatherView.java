@@ -10,6 +10,12 @@ import java.util.Observer;
  */
 public class WeatherView implements Observer {
 
+    private int fahrenheitSliderMax;
+    private int fahrenheitSliderMin;
+    private int celsiusSliderMax;
+    private int celsiusSliderMin;
+
+
     private WeatherModel model;
 
     private JFrame weatherFrame;
@@ -22,8 +28,15 @@ public class WeatherView implements Observer {
     private JButton convert2CelsiusButton;
     private JButton convert2FahrenheitButton;
 
-    public WeatherView(WeatherModel model) {
+
+    public WeatherView(WeatherModel model, int fahrenheitSliderMax, int fahrenheitSliderMin,
+                       int celsiusSliderMax, int celsiusSliderMin) {
+        this.fahrenheitSliderMax = fahrenheitSliderMax;
+        this.fahrenheitSliderMin = fahrenheitSliderMin;
+        this.celsiusSliderMax = celsiusSliderMax;
+        this.celsiusSliderMin = celsiusSliderMin;
         this.model = model;
+
         model.addObserver(this);
         setupUIComponents();
         updateUI();
@@ -34,7 +47,10 @@ public class WeatherView implements Observer {
         weatherFrame = new JFrame("Temperatur Konverter");
 
         // ------------ FAHRENHEIT -------------
-        JPanel fahrenheitPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel fahrenheitPanel = new JPanel();
+        fahrenheitPanel.setLayout(new BoxLayout(fahrenheitPanel, BoxLayout.Y_AXIS));
+
+        JPanel fahrenheitUpperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JLabel fahrenheitLabel = new JLabel("Fahrenheit");
         NumberFormat fahrenheitFormat = NumberFormat.getNumberInstance();
@@ -42,24 +58,29 @@ public class WeatherView implements Observer {
         fahrenheitField.setColumns(10);
         convert2CelsiusButton = new JButton("Konvertiere nach Celsius");
 
-        fahrenheitPanel.add(fahrenheitLabel);
-        fahrenheitPanel.add(fahrenheitField);
-        fahrenheitPanel.add(convert2CelsiusButton);
+        fahrenheitUpperPanel.add(fahrenheitLabel);
+        fahrenheitUpperPanel.add(fahrenheitField);
+        fahrenheitUpperPanel.add(convert2CelsiusButton);
+
+        fahrenheitSlider = new JSlider(SwingConstants.HORIZONTAL, fahrenheitSliderMin, fahrenheitSliderMax, fahrenheitSliderMin);
+
+        fahrenheitPanel.add(fahrenheitUpperPanel);
+        fahrenheitPanel.add(fahrenheitSlider);
 
         // ------------ CELSIUS -------------
-        JPanel celsiusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel celsiusUpperPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JLabel celsiusLabel = new JLabel("Celsius");
         celsiusField = new JTextField();
         celsiusField.setColumns(10);
         convert2FahrenheitButton = new JButton("Konvertiere nach Fahrenheit");
 
-        celsiusPanel.add(celsiusLabel);
-        celsiusPanel.add(celsiusField);
-        celsiusPanel.add(convert2FahrenheitButton);
+        celsiusUpperPanel.add(celsiusLabel);
+        celsiusUpperPanel.add(celsiusField);
+        celsiusUpperPanel.add(convert2FahrenheitButton);
 
 
-        weatherFrame.add(celsiusPanel, BorderLayout.NORTH);
+        weatherFrame.add(celsiusUpperPanel, BorderLayout.NORTH);
         weatherFrame.add(fahrenheitPanel, BorderLayout.SOUTH);
         weatherFrame.pack();
 
